@@ -24,8 +24,12 @@
         <label for="">Categoría</label>
         <select name="category_id">
             <option value=""></option>
+            {{--Si usamos la opción Categories::get, debemos hacer el siguiente foreach }}
             @foreach ($categories as $c)
                 <option value="{{$c->id}}">{{$c->title}}</option>                
+            @endforeach {{--}}
+            @foreach ($categories as $title => $id)
+                <option value="{{$id}}">{{$title}}</option>                
             @endforeach
         </select>
 

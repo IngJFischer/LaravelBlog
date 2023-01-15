@@ -26,8 +26,13 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
+        //Una forma de obtener los valores de las tablas de 'categories' es la siguiente
+        //$categories = Category::get();    //Esto devuelve todas las columnas de la tabla
+        //Como solo necesitamos dos valores: 'id' y 'title' usaremos lo siguiente (devuelve un array):
 
+        $categories = Category::pluck('id','title');
+
+        
         //Función de debug. Muestra un elemento del array obtenido con Category::get
         //dd($categories[0]->title);
 
@@ -44,7 +49,15 @@ class PostController extends Controller
     {
         //Función de debug que muestra los valores del $request de forma amigable//
         //dd($request);//
-        dd($request->all());
+        //dd($request->all());//
+
+        //Asignamos valor por defecto al parámetro 'image'
+
+        $data = array_merge($request->all(), ['image'=>'']);
+ 
+        //Creamos el registro en la base de datos
+        Post::create($data);
+
     }
 
     /**
