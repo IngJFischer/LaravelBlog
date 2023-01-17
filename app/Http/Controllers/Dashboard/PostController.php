@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\StoreRequest;
 
 class PostController extends Controller
 {
@@ -45,11 +46,15 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         //Función de debug que muestra los valores del $request de forma amigable//
         //dd($request);//
         //dd($request->all());//
+
+        //La validación de datos es hecha mediante la clase StoreRequest.
+        //Para una validación local podemos hacer $validated = Validator::make($request->all(), Reglas);
+        //Validator es una clase de Facades
 
         //Asignamos valor por defecto al parámetro 'image'
 
