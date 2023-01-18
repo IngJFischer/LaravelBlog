@@ -55,13 +55,10 @@ class PostController extends Controller
         //La validación de datos es hecha mediante la clase StoreRequest.
         //Para una validación local podemos hacer $validated = Validator::make($request->all(), Reglas);
         //Validator es una clase de Facades
-
-        //Asignamos valor por defecto al parámetro 'image'
-
-        $data = array_merge($request->all(), ['image'=>'']);
- 
+       
+        //dd($request->all());
         //Creamos el registro en la base de datos
-        Post::create($data);
+        Post::create($request->all());
 
     }
 

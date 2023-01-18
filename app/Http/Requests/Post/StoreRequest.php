@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Post;
 
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -21,6 +22,23 @@ class StoreRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     * 
+     * @return void
+     */
+
+    protected function prepareForValidation()
+    {
+         //Hacemos que el valor 'slug' dependa del titulo
+        $this->merge([
+            'slug' => Str::slug($this->title),
+            //otra forma es "'slug' => Str::of($this->title)->slug()->...". 
+            //De esta manera se pueden encadenar métodos en una misma definición.
+            //Tambien se puede reemplazar Str::of() por str($this->title).
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -30,7 +48,7 @@ class StoreRequest extends FormRequest
         return [
             //Aquí aplicamos las reglas de validación
             'title'=> 'required|min:5|max:255',
-            'slug'=> 'required|min:5|max:255',
+            'slug'=> 'required|min:5|max:255|unique:posts',
             'content'=> 'required|min:10',
             'category_id'=> 'required|integer',
             'description'=> 'required|min:10',
