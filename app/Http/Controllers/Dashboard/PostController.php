@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Post;
 use App\Models\Category;
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StoreRequest;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\PutRequest;
 
 class PostController extends Controller
 {
@@ -17,7 +20,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        //La función pluck extrae valores de la tabla y los entrega como un array 'key','value'
+        //(en ese orden)
+        $categories = Category::pluck('title','id');
+        $post = Post::paginate(2);
+        //dd($categories->all());
+        return view('dashboard.post.index',compact('post','categories'));
     }
 
     /**
@@ -70,7 +78,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return "Show";
     }
 
     /**
@@ -81,7 +89,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::pluck('id','title');
+
+        return view('dashboard.post.edit', compact('categories', 'post'));
+        //return "Edit";
     }
 
     /**
@@ -91,9 +102,9 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PutRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
     }
 
     /**
@@ -104,6 +115,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        return "Delete";
     }
-}
+};
