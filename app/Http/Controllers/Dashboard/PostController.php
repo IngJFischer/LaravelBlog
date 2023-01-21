@@ -40,12 +40,13 @@ class PostController extends Controller
         //Como solo necesitamos dos valores: 'id' y 'title' usaremos lo siguiente (devuelve un array):
 
         $categories = Category::pluck('id','title');
-
+        $post = new Post();
         
+        //dd($post);
         //Función de debug. Muestra un elemento del array obtenido con Category::get
         //dd($categories[0]->title);
 
-        return view('dashboard.post.create', compact('categories'));
+        return view('dashboard.post.create', compact('categories', 'post'));
     }
 
     /**
@@ -56,10 +57,6 @@ class PostController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        //Función de debug que muestra los valores del $request de forma amigable//
-        //dd($request);//
-        //dd($request->all());//
-
         //La validación de datos es hecha mediante la clase StoreRequest.
         //Para una validación local podemos hacer $validated = Validator::make($request->all(), Reglas);
         //Validator es una clase de Facades
@@ -67,6 +64,9 @@ class PostController extends Controller
         //dd($request->all());
         //Creamos el registro en la base de datos
         Post::create($request->all());
+
+        //Redirecionamos al index
+        return to_route("post.index");
 
     }
 
@@ -78,7 +78,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return "Show";
+        $categories = Category::pluck('id','title');
+
+        return view('dashboard.post.show', compact('categories', 'post'));
+
+        //return "Show";
     }
 
     /**
@@ -104,7 +108,11 @@ class PostController extends Controller
      */
     public function update(PutRequest $request, Post $post)
     {
+        //Guardamos los datos
         $post->update($request->validated());
+
+        //Redirecionamos al index
+        return to_route("post.index");
     }
 
     /**
@@ -115,6 +123,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        return "Delete";
+        //Eliminamos el registro
+        $post->delete();
+        
+        //Redireccionamos al index
+        return to_route("post.index");
     }
 };
