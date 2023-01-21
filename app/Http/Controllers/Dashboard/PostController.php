@@ -66,7 +66,7 @@ class PostController extends Controller
         Post::create($request->all());
 
         //Redirecionamos al index
-        return to_route("post.index");
+        return to_route("post.index")->with('status','Creación exitosa');
 
     }
 
@@ -78,7 +78,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $categories = Category::pluck('id','title');
+        //$categories = Category::pluck('id','title');
 
         return view('dashboard.post.show', compact('categories', 'post'));
 
@@ -110,9 +110,10 @@ class PostController extends Controller
     {
         //Guardamos los datos
         $post->update($request->validated());
-
+        //Esta es una forma de pasar variables que durarán un solo request
+        //$request->session()->flash('status','Edición exitosa');
         //Redirecionamos al index
-        return to_route("post.index");
+        return to_route("post.index")->with('status','Edición exitosa');
     }
 
     /**
@@ -127,6 +128,6 @@ class PostController extends Controller
         $post->delete();
         
         //Redireccionamos al index
-        return to_route("post.index");
+        return to_route("post.index")->with('status','Registro eliminado');
     }
 };

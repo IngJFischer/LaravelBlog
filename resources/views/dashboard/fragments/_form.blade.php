@@ -8,7 +8,7 @@
     <input type="text" name="title" value="{{old("title", $post->title)}}">
 
     <label for="">Slug</label>
-    <input {{$post->exists ? "readonly" : ""}} type="text" name="slug" value="{{old("slug", $post->slug)}}">
+    <input {{--$post->exists ? "readonly" : ""--}} type="text" name="slug" value="{{old("slug", $post->slug)}}">
 
     <label for="">Categoría</label>
     <select name="category_id">

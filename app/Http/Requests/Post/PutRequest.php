@@ -31,6 +31,9 @@ class PutRequest extends FormRequest
         return [
             //Aquí aplicamos las reglas de validación
             'title'=> 'required|min:5|max:255',
+            'slug'=> 'required|min:5|max:255|unique:posts,slug,'.$this->route("post")->id,
+            //La condicoon ",slug'.$this->route("post")->id es para no comprobar la unicidad del
+            //slug cuando estamos editando el post.
             'content'=> 'required|min:10',
             'category_id'=> 'required|integer',
             'description'=> 'required|min:10',
