@@ -108,8 +108,19 @@ class PostController extends Controller
      */
     public function update(PutRequest $request, Post $post)
     {
+        //Definimos la variable temporal $data para trabajar sobre ella y no sobre $request
+        $data = $request->validated();
+
+        if (isset($data["image"])){
+            //Si hemos cargado una imagen y se valido correctamente hacemos lo siguiente
+            //Generamos el nombre de archivo y lo pasamos para guardar en la base de datos
+            $data['image'] = $filename = time().".".$data['image']->extension();
+            //Movemos el archivo subido al sistema de almacenamiento de laravel
+            $request->validated()['image']->move(public_path("image"),$filename);
+        }
+        
         //Guardamos los datos
-        $post->update($request->validated());
+        $post->update($data);
         //Esta es una forma de pasar variables que durarán un solo request
         //$request->session()->flash('status','Edición exitosa');
         //Redirecionamos al index

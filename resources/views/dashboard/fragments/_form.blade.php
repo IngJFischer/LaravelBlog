@@ -41,6 +41,12 @@
 
     <br>
 
+    @if (isset($task) && $task == "edit")
+        <label for="">Imagen</label>
+        <input type="file" name="image">
+        <br>
+    @endif
+
     <button type="submit">Enviar</button>
     <p></p>    
 </body>

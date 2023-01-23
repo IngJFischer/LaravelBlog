@@ -9,12 +9,12 @@
     <br>
 
     {{--La ruta que pasamos a continuación es del PostController.store--}}
-    <form action="{{route('post.update', $post->id)}}" method="post">
+    <form action="{{route('post.update', $post->id)}}" method="post" enctype="multipart/form-data">
         
         {{--Este es el método que utilizaremos para enviar los datos a la base de datos--}}
         @method("PUT") {{--Tambien puede ser "PATCH"--}}
         
-        @include('dashboard.fragments._form')        
+        @include('dashboard.fragments._form', ['task'=>'edit'])  
 
     </form> 
 
