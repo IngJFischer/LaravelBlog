@@ -20,12 +20,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //La función pluck extrae valores de la tabla y los entrega como un array 'key','value'
-        //(en ese orden)
-        $categories = Category::pluck('title','id');
-        $post = Post::paginate(2);
+        //Mostramos de a x resultados a la vez
+        $post = Post::paginate(3);
         //dd($categories->all());
-        return view('dashboard.post.index',compact('post','categories'));
+        return view('dashboard.post.index',compact('post'));
     }
 
     /**

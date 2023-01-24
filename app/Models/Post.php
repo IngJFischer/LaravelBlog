@@ -16,4 +16,11 @@ class Post extends Model
     'posted',
     'image'];
     use HasFactory;
+
+    public function Category()
+    {
+        //Función que nos retorna datos en una relación uno a muchos
+        return $this->belongsTo(Category::class);
+    }
+
 }

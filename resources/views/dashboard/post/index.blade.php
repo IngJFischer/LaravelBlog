@@ -19,7 +19,7 @@
     @foreach ($post as $p)
         <tr>
             <td>{{$p->title}}</td>
-            <td>{{$categories[$p->category_id]}}</td>
+            <td>{{$p->Category['title']}}</td>
             <td>{{$p->posted}}</td>
             <td>
                 {{-- Pasamos las rutas a las acciones edit show y destroy --}}
