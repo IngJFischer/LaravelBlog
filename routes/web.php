@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\PostController;
+use App\Http\Controllers\Dashboard\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,4 @@ Route::get('/', function () {
 //Creamos las rutas tipo recurso asociadas al controlador PostController.
 
 Route::resource('post', PostController::class);
+Route::resource('category', CategoryController::class);

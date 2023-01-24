@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Post;
 use App\Models\Category;
-
-use Illuminate\Http\Request;
+use App\Http\Requests\Post\PutRequest;
 use App\Http\Requests\Post\StoreRequest;
 
+
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Post\PutRequest;
 
 class PostController extends Controller
 {
@@ -21,7 +21,7 @@ class PostController extends Controller
     public function index()
     {
         //Mostramos de a x resultados a la vez
-        $post = Post::paginate(3);
+        $post = Post::paginate(5);
         //dd($categories->all());
         return view('dashboard.post.index',compact('post'));
     }
@@ -78,7 +78,7 @@ class PostController extends Controller
     {
         //$categories = Category::pluck('id','title');
 
-        return view('dashboard.post.show', compact('categories', 'post'));
+        return view('dashboard.post.show', compact('post'));
 
         //return "Show";
     }
