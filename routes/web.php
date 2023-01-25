@@ -20,7 +20,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Creamos las rutas tipo recurso asociadas al controlador PostController.
 
-Route::resource('post', PostController::class);
-Route::resource('category', CategoryController::class);
+//Creamos rutas agrupadas bajo el prefijo dashboard.
+Route::group(['prefix'=>'dashboard'], function () {
+    
+    //Creamos las rutas tipo recurso asociadas al controlador PostController.
+    
+    //La primer forma es la siguiente:
+    //Route::resource('post', PostController::class);
+    //Route::resource('category', CategoryController::class);
+
+    //Una forma mas abreviada y agrupada es:
+    Route::resources([
+        'post' => PostController::class,
+        'category' => CategoryController::class,
+    ]);
+});

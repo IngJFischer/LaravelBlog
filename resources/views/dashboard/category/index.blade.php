@@ -9,8 +9,6 @@
     <thead>
         <tr>
             <th>Título</th>
-            <th>Categoría</th>
-            <th>Posteado</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -18,7 +16,6 @@
     <tbody>
     @foreach ($category as $c)
         <tr>
-            Título
             <td>{{$c->slug}}</td>
             <td>
                 {{-- Pasamos las rutas a las acciones edit show y destroy --}}
