@@ -1,9 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Dashboard\PostController;
-use App\Http\Controllers\Dashboard\CategoryController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -20,19 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-//Creamos rutas agrupadas bajo el prefijo dashboard.
-Route::group(['prefix'=>'dashboard'], function () {
-    
-    //Creamos las rutas tipo recurso asociadas al controlador PostController.
-    
-    //La primer forma es la siguiente:
-    //Route::resource('post', PostController::class);
-    //Route::resource('category', CategoryController::class);
-
-    //Una forma mas abreviada y agrupada es:
-    Route::resources([
-        'post' => PostController::class,
-        'category' => CategoryController::class,
-    ]);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';
