@@ -21,7 +21,7 @@ class PostController extends Controller
     public function index()
     {
         //Mostramos de a x resultados a la vez
-        $post = Post::paginate(5);
+        $post = Post::paginate(3);
         //dd($categories->all());
         return view('dashboard.post.index',compact('post'));
     }
