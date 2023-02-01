@@ -5,13 +5,13 @@
 
     {{--La función old("valor","valor por defecto") permite almacenar los valores anteriores --}}
     <label for="">Título</label>
-    <input type="text" name="title" value="{{old("title", $post->title)}}">
+    <input type="text" class="form-control" name="title" value="{{old("title", $post->title)}}">
 
     <label for="">Slug</label>
-    <input {{--$post->exists ? "readonly" : ""--}} type="text" name="slug" value="{{old("slug", $post->slug)}}">
+    <input {{--$post->exists ? "readonly" : ""--}} type="text" class="form-control" name="slug" value="{{old("slug", $post->slug)}}">
 
     <label for="">Categoría</label>
-    <select name="category_id">
+    <select name="category_id" class="form-control">
         <option value=""></option>
         {{--Si usamos la opción Categories::get, debemos hacer el siguiente foreach }}
         @foreach ($categories as $c)
@@ -24,7 +24,7 @@
     </select>
 
     <label for="">Posteado</label>
-    <select name="posted">
+    <select name="posted" class="form-control">
         <option {{old("posted", $post->posted) == "no" ? "selected" : ""}} value="no">No</option>
         <option {{old("posted", $post->posted) == "yes" ? "selected" : ""}} value="yes">Si</option>
     </select>
@@ -32,21 +32,21 @@
     <br>
 
     <label for="">Contenido</label>
-    <textarea name="content">{{old("content", $post->content)}}</textarea>
+    <textarea name="content" class="form-control">{{old("content", $post->content)}}</textarea>
 
     <br>
 
     <label for="">Descripción</label>
-    <textarea name="description">{{old("description", $post->description)}}</textarea>
+    <textarea name="description" class="form-control">{{old("description", $post->description)}}</textarea>
 
     <br>
 
     @if (isset($task) && $task == "edit")
         <label for="">Imagen</label>
-        <input type="file" name="image">
+        <input class="btn btn-primary" type="file" name="image">
         <br>
     @endif
 
-    <button type="submit">Enviar</button>
+    <button class="btn btn-success mt-2" type="submit">Enviar</button>
     <p></p>    
 </body>

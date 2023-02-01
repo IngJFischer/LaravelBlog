@@ -2,10 +2,9 @@
 
 @section('content')
 
-<a href="{{route("category.create")}}">Crear</a>
+<a class="btn btn-success my-3" href="{{route("category.create")}}">Crear</a>
 
-<h1>Index</h1>
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Título</th>
@@ -23,19 +22,19 @@
                 <a href="{{route("post.edit", $p)}}"></button></a>
                 <a href="{{route("post.show", $p)}}">Mostrar</a>
                 Para pasarlas como botones en HTML tenemos que hacer esto --}}
-                <form action="{{route('category.edit', $c)}}">
-                    <button type="submit">Editar</button>
+                <form class="inline-block" action="{{route('category.edit', $c)}}">
+                    <button class = "btn btn-primary my-2" type="submit">Editar</button>
                 </form>
 
-                <form action="{{route('category.show', $c)}}">
-                    <button type="submit">Ver</button>
+                <form class="inline-block" action="{{route('category.show', $c)}}">
+                    <button class = "btn btn-warning my-2" type="submit">Ver</button>
                 </form>
 
                 {{--Para destroy tenemos que hascer una peticion de tipo "POST" pero con el metodo "DELETE"--}}
-                <form action="{{route('category.destroy', $c)}}" method="post">
+                <form class="inline-block" action="{{route('category.destroy', $c)}}" method="post">
                     @csrf
                     @method("DELETE")
-                    <button type="submit">Eliminar</button>
+                    <button class = "btn btn-danger my-2" type="submit">Eliminar</button>
                 </form>
             </td>
         </tr>

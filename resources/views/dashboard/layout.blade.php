@@ -30,7 +30,13 @@
         {{session('status')}}
     @endif
 
-    @yield('content')
+    <div class="container">
+        <div class="card-white mt-5">
+            @yield('content')
+
+        </div>
+
+    </div>
 </div>
     
 </body>
