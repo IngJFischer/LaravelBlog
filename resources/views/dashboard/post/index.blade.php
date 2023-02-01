@@ -18,15 +18,15 @@
     @foreach ($post as $p)
         <tr>
             <td>{{$p->title}}</td>
-            <td>{{$p->Category['title']}}</td>
-            <td>{{$p->posted}}</td>
-            <td>
+            <td class="table-cell text-center">{{$p->Category['title']}}</td>
+            <td class="table-cell text-center">{{$p->posted}}</td>
+            <td class="table-cell text-center">
                 {{-- Pasamos las rutas a las acciones edit show y destroy --}}
                 {{-- Esta es la forma mas sencilla de pasar estas rutas
                 <a href="{{route("post.edit", $p)}}"></button></a>
                 <a href="{{route("post.show", $p)}}">Mostrar</a>
                 Para pasarlas como botones en HTML tenemos que hacer esto --}}
-                <form class="inline-block" action="{{route('post.edit', $p)}}">
+                <form class="inline-block object-right" action="{{route('post.edit', $p)}}">
                     <button class = "btn btn-primary my-2" type="submit">Editar</button>
                 </form>
 

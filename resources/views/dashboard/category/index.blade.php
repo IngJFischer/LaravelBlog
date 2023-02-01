@@ -16,7 +16,7 @@
     @foreach ($category as $c)
         <tr>
             <td>{{$c->slug}}</td>
-            <td>
+            <td class="table-cell text-center">
                 {{-- Pasamos las rutas a las acciones edit show y destroy --}}
                 {{-- Esta es la forma mas sencilla de pasar estas rutas
                 <a href="{{route("post.edit", $p)}}"></button></a>
