@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
 //Creamos rutas agrupadas bajo el prefijo dashboard
 //('middleware'=>'auth' es para usar el esquema de validación).
-Route::group(['prefix'=>'dashboard', 'middleware'=>'auth'], function () {
+Route::group(['prefix'=>'dashboard', 'middleware'=>['auth','admin']], function () {
 
     //Creamos las rutas tipo recurso asociadas al controlador PostController.
 
