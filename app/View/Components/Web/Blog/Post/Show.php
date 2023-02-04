@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\web\blog\post;
+namespace App\View\Components\Web\Blog\post;
 
 use Illuminate\View\Component;
 
@@ -12,14 +12,15 @@ class Show extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($post)
     {
-        //
+        $this->post = $post;
     }
 
     public function changeTitle()
     {
-        $this->post = "TituloNuevo";
+        //dd($this->post->all());
+        $this->post['title'] = "TituloNuevo";
     }
 
     /**
@@ -29,6 +30,6 @@ class Show extends Component
      */
     public function render()
     {
-        return view('components.web.blog.post.show');
+        return view('components.web.blog.post.Show');
     }
 }
