@@ -4,6 +4,9 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class PutRequest extends FormRequest
 {
@@ -22,6 +25,18 @@ class PutRequest extends FormRequest
         $this->merge(['slug' => Str::slug($this->title)]);
     }
     
+    function failedValidation(Validator $validator)
+    {
+        //Aca ponemos que devolver si falla la validación en la API
+        if ($this->expectsJson()){
+            $response = new Response($validator->errors(), 422);
+            throw new ValidationException($validator, $response);
+        };
+
+        //Esto hace que funcione la validación web en conjunto con la de API
+        parent::failedValidation($validator);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

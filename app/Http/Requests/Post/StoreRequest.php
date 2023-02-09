@@ -3,7 +3,10 @@
 namespace App\Http\Requests\Post;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class StoreRequest extends FormRequest
 {
@@ -38,6 +41,18 @@ class StoreRequest extends FormRequest
         ]);
     }
 
+    function failedValidation(Validator $validator)
+    {
+        //Aca ponemos que devolver si falla la validación en la API
+        if ($this->expectsJson()){
+            $response = new Response($validator->errors(), 422);
+            throw new ValidationException($validator, $response);
+        };
+
+        //Esto hace que funcione la validación web en conjunto con la de API
+        parent::failedValidation($validator);
+    }
+    
     /**
      * Get the validation rules that apply to the request.
      *
