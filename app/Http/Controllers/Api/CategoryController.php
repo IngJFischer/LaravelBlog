@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,6 +16,33 @@ class CategoryController extends Controller
     {
         $data = Category::paginate(10);
         return response()->json($data, 200);
+    }
+
+    public function all()
+    {
+        $data = Category::get();
+        return response()->json($data, 200);
+    }
+
+    public function posts(Category $category)
+    {
+        //QueryBuilder
+        //$posts = Post::join('categories',"categories.id","=","posts.category_id")
+        //->select("posts.*","categories.title as category")
+        //->where("categories.id",$category->id)
+        //->get(); //->toSQL() Para ver el SQL
+
+        //Eloquent ORM
+        $posts = Post::with("category")
+        ->where("category_id",$category->id)
+        ->get();
+        return response()->json($posts);
+    }
+
+    public function slug($slug)
+    {
+        $category = Category::where('slug', $slug)->FirstorFail();
+        return response()->json($category,200);
     }
 
     public function store(StoreRequest $request)
