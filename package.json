@@ -20,6 +20,7 @@
         "@oruga-ui/oruga-next": "^0.5.10",
         "@vitejs/plugin-vue": "^4.0.0",
         "vue": "^3.2.36",
-        "vue-loader": "^17.0.1"
+        "vue-loader": "^17.0.1",
+        "vue-router": "^4.1.6"
     }
 }

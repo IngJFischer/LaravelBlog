@@ -7,7 +7,9 @@
     <title>VueElement</title>
 </head>
 <body>
-    <div id="app"></div>
-    @vite('resources/js/vue/main.js')
+    <div class="container">
+        <div id="app"></div>
+        @vite('resources/js/vue/main.js')
+    </div>
 </body>
 </html>

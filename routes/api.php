@@ -27,8 +27,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:sanctum'], function (){
 });
 
-Route::resource('category', CategoryController::class)->except(['create','edit']);
-Route::resource('post', PostController::class)->except(['create', 'edit']);
 
 Route::get('category/all', [CategoryController::class, 'all']);
 Route::get('category/slug/{slug}', [CategoryController::class, 'slug']);
@@ -39,3 +37,6 @@ Route::get('post/slug/{post:slug}', [PostController::class, 'slug']);
 
 Route::post('user/login', [UserController::class, 'login']);
 Route::post('user/logout', [UserController::class, 'logout']);
+
+Route::resource('category', CategoryController::class)->except(['create','edit']);
+Route::resource('post', PostController::class)->except(['create', 'edit']);
