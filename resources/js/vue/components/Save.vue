@@ -28,6 +28,21 @@
                     <option value="no">No</option>
                 </o-select>
             </o-field>
+
+            <div v-if="postdata" class="flex gap-4">
+                <o-field :variant="fileError ? 'danger' : 'primary'" :message="fileError">
+                    <o-upload v-model="file">
+                        <o-button rounded tag="a" variant="primary">
+                            <o-icon icon="tray-arrow-up"></o-icon>
+                            <span> Click para cargar</span>
+                        </o-button>
+                    </o-upload>
+                </o-field>
+                <o-button rounded icon-left="tray-arrow-up" @click="upload">
+                    Subir
+                </o-button>
+            </div>
+
         </div>
     
         <o-button rounded variant="primary" icon-left="content-save" native-type="submit">Guardar</o-button>
@@ -57,7 +72,11 @@ export default {
                 posted: "",
             },
 
+            fileError: "",
+
             postdata: "", 
+
+            file: null,
         }
     },
     
@@ -65,7 +84,7 @@ export default {
 
         if (this.$route.params.slug) {
             await this.getPost()
-            console.log(this.postdata)
+            //console.log(this.postdata)
             this.initPost()
         }
 
@@ -78,6 +97,26 @@ export default {
                 this.categories = res.data
                 //console.log(res.data)
             })
+        },
+
+        upload() {
+            //return console.log(this.file)
+            const formData = new FormData()
+            formData.append("image", this.file)
+
+            this.$axios.post('/api/post/upload/' + this.postdata.id, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then(res =>
+                    //console.log(res)
+                    this.fileError = ""
+                )
+                .catch(error => 
+                    //console.log(error.response.data.message)
+                    this.fileError = error.response.data.message
+                ) 
         },
 
         async getPost() {
@@ -118,7 +157,7 @@ export default {
                         })
                     })
                     .catch(error => {
-                    console.log(error.response.data)
+                    //console.log(error.response.data)
                     if (error.response.data.title)
                         this.errorform.title = error.response.data.title[0]
                     if (error.response.data.description)
@@ -142,7 +181,7 @@ export default {
                     })
                 })
                 .catch(error => {
-                    console.log(error.response.data)
+                    //console.log(error.response.data)
                     if (error.response.data.title)
                         this.errorform.title = error.response.data.title[0]
                     if (error.response.data.description)

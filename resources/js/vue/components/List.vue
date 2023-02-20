@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <o-modal v-model:active="confirmDeleteActive" canCancel="false">
+        <o-modal v-model:active="confirmDeleteActive" |=false>
             <div class="p-5">
                 <p>¿Desea eliminar el registro seleccionado?</p>
                 <br>
@@ -16,7 +16,7 @@
         
         <div class="mb-5"></div>
 
-        <o-button rounded icon-left="plus" @click="$router.push({name: 'save'})">
+        <o-button rounded icon-left="plus" tag="router-link" :to="({name: 'save'})">
             Crear
         </o-button>
 
@@ -42,9 +42,16 @@
                 {{ p.row.category.title }}
             </o-table-column>
             <o-table-column ficlass="ml-5" field="slug" label="Acciones"  v-slot="p">
-                <router-link class="mr-3" :to="{name:'save', params:{'slug': p.row.slug}}">
-                    <o-button rounded size="small" variant="primary" icon-left="pencil">Editar</o-button>
-                </router-link>
+                
+                <o-button 
+                  rounded 
+                  size="small"
+                  variant="primary"
+                  icon-left="pencil"
+                  tag="router-link"
+                   :to="{name:'save', params:{'slug': p.row.slug}}">
+                    Editar
+                </o-button>
                 <o-button 
                   rounded
                   size="small"

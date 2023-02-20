@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function (){
 Route::get('category/all', [CategoryController::class, 'all']);
 Route::get('category/slug/{slug}', [CategoryController::class, 'slug']);
 Route::get('category/{category}/posts', [CategoryController::class, 'posts']);
+Route::post('post/upload/{post}', [PostController::class, 'upload']);
 
 Route::get('post/all', [PostController::class, 'all']);
 Route::get('post/slug/{post:slug}', [PostController::class, 'slug']);
