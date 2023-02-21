@@ -7,9 +7,30 @@
     <title>VueElement</title>
 </head>
 <body>
+
+    @if (auth()->check())
+        <script>
+            window.SanctumToken = {!!
+                json_encode([
+                    'isloggedin' => true,
+                    'user' => auth()->user(),
+                    'token' => session('token'),
+                ]) 
+            !!}
+        </script>
+    @else
+        <script>
+            window.SanctumToken = {!!
+                json_encode([
+                    'isloggedin' => false,
+                ])
+            !!}
+        </script>
+    @endif
+
     <div class="container">
         <div id="app"></div>
-        @vite('resources/js/vue/main.js')
     </div>
+    @vite('resources/js/vue/main.js')
 </body>
 </html>

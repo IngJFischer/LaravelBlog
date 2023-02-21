@@ -18,9 +18,10 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)){
             $token = Auth::user()->createToken('myapptoken')->plainTextToken;
+            session()->put('token', $token);
             return response()->json($token);
         };
-        return response()->json('Usuario o Contraseña Inválido');
+        return response()->json('Usuario o Contraseña Inválido', 422);
     }
 
     public function logout(LoginRequest $request)
