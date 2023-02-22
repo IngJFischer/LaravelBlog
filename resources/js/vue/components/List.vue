@@ -52,6 +52,7 @@
                    :to="{name:'save', params:{'slug': p.row.slug}}">
                     Editar
                 </o-button>
+
                 <o-button 
                   rounded
                   size="small"
@@ -98,15 +99,25 @@ export default defineComponent({
         };
     },
 
+    created() {
+        if (!this.$root.isLoggedIn) {
+            window.location.href='/vue/login'
+        }
+    },
+
     methods: {
+
         updatePage() {
             setTimeout(this.listPage, 100)
         },
 
         listPage() {
-            //console.log("click"+this.currentPage)
+            const config = {
+                headers: {Authorization: 'Bearer ' + this.$cookies.get('auth').token}
+            }
+            //console.log(config)
             this.loading = true
-            this.$axios.get('/api/post?page=' + this.currentPage).then((res) => {
+            this.$axios.get('/api/post?page=' + this.currentPage, config).then((res) => {
                 this.posts = res.data
                 //console.log(this.posts)    
                 this.loading = false
@@ -128,9 +139,8 @@ export default defineComponent({
     },
     
     async mounted() {
+        console.log(this.$cookies.get('auth'))
         this.listPage()
-
-
     }
 })
 </script>

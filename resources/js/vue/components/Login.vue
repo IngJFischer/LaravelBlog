@@ -13,7 +13,7 @@
                 </o-field>
     
                 <div class="flex flex-row-reverse gap-2">
-                    <o-button rounded variant="primary" native-type="submit" >Log-In</o-button>
+                    <o-button rounded :variant="login_enable ? 'primary' : 'disabled'" native-type="submit" >Log-In</o-button>
                 </div>
             </form>
         </div>
@@ -23,6 +23,13 @@
 
 <script>
 export default {
+
+    created() {
+        if (this.$root.isLoggedIn) {
+            this.login_enable = false
+            this.$router.push({name: "list"})
+        }
+    },
 
     methods: {
         cleanErrors() {
@@ -35,17 +42,23 @@ export default {
 
             this.$axios.post('/api/user/login', this.form)
                 .then(res => {
-                    console.log(res.data)
+                    //console.log(res.data)
+                    this.login_enable = false
+
                     this.$oruga.notification.open({
                         message: 'Logged-In',
                         position: 'bottom-right',
                         variant: 'primary',
-                        duration: 2000,
+                        duration: 1000,
                         closable: true,
                     })
+
+                    this.$root.setCookieAuth(res.data)
+
+                    setTimeout(() => (window.location.href = '/vue'), 1500)
                 })
                 .catch(error => {
-                    console.log(error)
+                    //console.log(error)
                     if (error.response.data) {
                         this.errors.login = error.response.data
                     }
@@ -64,6 +77,8 @@ export default {
             errors: {
                 login: "",
             },
+
+            login_enable: true
         }
     }
 }

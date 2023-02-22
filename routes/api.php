@@ -25,19 +25,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function (){
+    Route::get('category/all', [CategoryController::class, 'all']);
+    Route::get('category/slug/{slug}', [CategoryController::class, 'slug']);
+    Route::get('category/{category}/posts', [CategoryController::class, 'posts']);
+    Route::post('post/upload/{post}', [PostController::class, 'upload']);
+    
+    Route::get('post/all', [PostController::class, 'all']);
+    Route::get('post/slug/{post:slug}', [PostController::class, 'slug']);
+    
+    Route::resource('category', CategoryController::class)->except(['create','edit']);
+    Route::resource('post', PostController::class)->except(['create', 'edit']);
+    
 });
-
-
-Route::get('category/all', [CategoryController::class, 'all']);
-Route::get('category/slug/{slug}', [CategoryController::class, 'slug']);
-Route::get('category/{category}/posts', [CategoryController::class, 'posts']);
-Route::post('post/upload/{post}', [PostController::class, 'upload']);
-
-Route::get('post/all', [PostController::class, 'all']);
-Route::get('post/slug/{post:slug}', [PostController::class, 'slug']);
 
 Route::post('user/login', [UserController::class, 'login']);
 Route::post('user/logout', [UserController::class, 'logout']);
 
-Route::resource('category', CategoryController::class)->except(['create','edit']);
-Route::resource('post', PostController::class)->except(['create', 'edit']);
+Route::post('user/checktoken', [UserController::class, 'checkToken']);
+

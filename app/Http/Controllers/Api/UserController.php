@@ -6,9 +6,24 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
+
+    public function checkToken() 
+    {
+        $token = request('token');
+
+        [$id, $token] = explode('|', $token);
+
+        $tokenHash = hash('sha256', $token);
+
+        $tokenModel = PersonalAccessToken::where('token', $tokenHash)->first();
+
+        dd($tokenModel->tokenable);
+    }
+
     public function login(LoginRequest $request)
     {
         $credentials = [
@@ -19,22 +34,19 @@ class UserController extends Controller
         if (Auth::attempt($credentials)){
             $token = Auth::user()->createToken('myapptoken')->plainTextToken;
             session()->put('token', $token);
-            return response()->json($token);
+            return response()->json([
+                'isloggedin' => true,
+                'user' => auth()->user(),
+                'token' => $token,
+            ]);
         };
         return response()->json('Usuario o Contraseña Inválido', 422);
     }
 
-    public function logout(LoginRequest $request)
+    public function logout()
     {
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+        session()->flush();
 
-        if (Auth::attempt($credentials)){
-            Auth::user()->tokens()->delete();
-            return response()->json('Loged Out');
-        };
-        return response()->json('Usuario o Contraseña Inválido');
+        return response()->json('Logged Out');
     }
 }

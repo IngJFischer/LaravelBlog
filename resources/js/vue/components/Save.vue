@@ -90,10 +90,20 @@ export default {
 
         this.getCategory()
     },
+
+    created() {
+        if (!this.$root.isLoggedIn) {
+            window.location.href='/vue/login'
+        }
+    },
     
     methods: {
         getCategory() {
-            this.$axios.get('/api/category/all').then(res => {
+            const config = {
+                headers: {Authorization: 'Bearer ' + this.$cookies.get('auth').token}
+            }
+
+            this.$axios.get('/api/category/all', config).then(res => {
                 this.categories = res.data
                 //console.log(res.data)
             })
@@ -101,6 +111,11 @@ export default {
 
         upload() {
             //return console.log(this.file)
+
+            const config = {
+                headers: {Authorization: 'Bearer ' + this.$cookies.get('auth').token}
+            }
+
             const formData = new FormData()
             formData.append("image", this.file)
 
@@ -108,7 +123,7 @@ export default {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            })
+            }, config)
                 .then(res =>
                     //console.log(res)
                     this.fileError = ""
@@ -120,7 +135,11 @@ export default {
         },
 
         async getPost() {
-            this.postdata = await this.$axios.get('/api/post/slug/' + this.$route.params.slug)
+            const config = {
+                headers: {Authorization: 'Bearer ' + this.$cookies.get('auth').token}
+            }
+
+            this.postdata = await this.$axios.get('/api/post/slug/' + this.$route.params.slug, config)
             this.postdata = this.postdata.data
         },
 
@@ -145,8 +164,12 @@ export default {
             this.clearErrorForm()
             //console.log(this.form);
 
+            const config = {
+                headers: {Authorization: 'Bearer ' + this.$cookies.get('auth').token}
+            }
+
             if (this.postdata == "") {
-                return this.$axios.post('/api/post', this.form)
+                return this.$axios.post('/api/post', this.form, config)
                     .then(res => {
                         this.$oruga.notification.open({
                             message: 'Registro Creado',
