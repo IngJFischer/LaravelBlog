@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <o-modal v-model:active="confirmDeleteActive" |=false>
+        <o-modal v-model:active="confirmDeleteActive">
             <div class="p-5">
                 <p>¿Desea eliminar el registro seleccionado?</p>
                 <br>
@@ -99,11 +99,11 @@ export default defineComponent({
         };
     },
 
-    created() {
+    /*created() {
         if (!this.$root.isLoggedIn) {
             window.location.href='/vue/login'
         }
-    },
+    },*/
 
     methods: {
 
@@ -125,8 +125,9 @@ export default defineComponent({
         },
         
         deletePost() {
-            //console.log(post)
+            
             this.posts.data.splice(this.deletePostRow.index, 1)
+
             this.$axios.delete('/api/post/' + this.deletePostRow.row.id)
             this.$oruga.notification.open({
                 message: 'Registro Eliminado',
@@ -139,7 +140,7 @@ export default defineComponent({
     },
     
     async mounted() {
-        console.log(this.$cookies.get('auth'))
+        //console.log(this.$cookies.get('auth'))
         this.listPage()
     }
 })

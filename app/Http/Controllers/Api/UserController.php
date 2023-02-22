@@ -7,21 +7,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
 use Laravel\Sanctum\PersonalAccessToken;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UserController extends Controller
 {
 
     public function checkToken() 
     {
-        $token = request('token');
-
-        [$id, $token] = explode('|', $token);
-
-        $tokenHash = hash('sha256', $token);
-
-        $tokenModel = PersonalAccessToken::where('token', $tokenHash)->first();
-
-        dd($tokenModel->tokenable);
+        try {
+            $token = request('token');
+    
+            [$id, $token] = explode('|', $token);
+    
+            $tokenHash = hash('sha256', $token);
+    
+            $tokenModel = PersonalAccessToken::where('token', $tokenHash)->first();
+    
+            if ($tokenModel) {
+                //dd($tokenModel->tokenable);
+                Auth::login($tokenModel->tokenable);
+                return response()->json([
+                    'isLoggedIn' => true,
+                    'user' => auth()->user(),
+                    'token' => $token,
+                ]);
+            }
+        }
+        catch (\Throwable $th) {
+        }
+        
+        return response()->json('Usuario Inválido', 422);
     }
 
     public function login(LoginRequest $request)
@@ -44,9 +59,15 @@ class UserController extends Controller
     }
 
     public function logout()
-    {
-        session()->flush();
+    {        
+        [$id, $token] = explode('|', request('token'));
+        if (Auth::user())
+            Auth::user()->tokens()->where('id', $id)->delete();
+        else
+            PersonalAccessToken::where('id', $id)->delete();
 
+        session()->flush();
+        
         return response()->json('Logged Out');
     }
 }

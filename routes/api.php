@@ -40,6 +40,6 @@ Route::group(['middleware' => 'auth:sanctum'], function (){
 
 Route::post('user/login', [UserController::class, 'login']);
 Route::post('user/logout', [UserController::class, 'logout']);
-
 Route::post('user/checktoken', [UserController::class, 'checkToken']);
+
 

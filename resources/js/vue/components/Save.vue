@@ -91,11 +91,11 @@ export default {
         this.getCategory()
     },
 
-    created() {
+    /*created() {
         if (!this.$root.isLoggedIn) {
             window.location.href='/vue/login'
         }
-    },
+    },*/
     
     methods: {
         getCategory() {

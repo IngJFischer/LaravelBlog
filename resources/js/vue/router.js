@@ -4,6 +4,9 @@ import List from './components/List.vue'
 import Save from './components/Save.vue'
 import Login from './components/Login.vue'
 
+import { useCookies } from "vue3-cookies"
+const { cookies } = useCookies()
+
 const routes = [
     {
         name: 'list',
@@ -25,6 +28,18 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes: routes
+})
+
+//Protección de rutas
+router.beforeEach(async (to, from, next) => {
+    
+    const auth = cookies.get('auth')
+
+    if (!auth && to.name != 'login') {
+        return next({ name: 'login' })
+    }
+    return next()
+
 })
 
 export default router
